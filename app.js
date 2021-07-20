@@ -1,14 +1,13 @@
-
-const pino = require('pino-http')()
 const tracer = require('dd-trace').init({
   logInjection: true
 });
+const pino = require('pino-http')()
 
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+//var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -19,20 +18,20 @@ var dd_options = {
   'tags': ['app:myapp']
 }
 
-var connect_datadog = require('connect-datadog')(dd_options);
-
+//var connect_datadog = require('connect-datadog')(dd_options);
+//var DD_LOGS_INJECTION=true
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 app.use(pino)
-app.use(logger('dev'));
+//app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(connect_datadog);
+//app.use(connect_datadog);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
