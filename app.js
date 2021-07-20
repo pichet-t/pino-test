@@ -1,6 +1,8 @@
+//var DD_LOGS_INJECTION=true
 const tracer = require('dd-trace').init({
   logInjection: true
 });
+
 const pino = require('pino-http')()
 
 var createError = require('http-errors');
@@ -13,13 +15,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
-var dd_options = {
-  'response_code':true,
-  'tags': ['app:myapp']
-}
 
+//var dd_options = {
+//  'response_code':true,
+//  'tags': ['app:myapp']
+//}
 //var connect_datadog = require('connect-datadog')(dd_options);
-//var DD_LOGS_INJECTION=true
+//docs.datadoghq.com/integrations/express/
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
