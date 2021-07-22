@@ -1,0 +1,24 @@
+version: '3'
+services:
+  redis:
+    image: redis
+    labels:
+      com.datadoghq.ad.logs: '[{"source": "redis", "service": "redis"}]'
+    ports:
+     - 6379:6379
+  datadog:
+    build: datadog
+    links:
+     - redis # Connect the Datadog Agent container to the Redis container
+    environment:
+     - DD_API_KEY=${DD_API_KEY}
+     - DD_ENV=${DD_ENV}
+     - DD_SITE=datadoghq.eu
+     - DD_LOGS_ENABLED=true
+     - DD_APM_ENABLED=true
+     - DD_LOGS_CONFIG_DOCKER_CONTAINER_USE_FILE=true # To read log from file instead of the docker socket
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
+     - /proc/:/host/proc/:ro
+     - /sys/fs/cgroup:/host/sys/fs/cgroup:ro
+     - /var/lib/docker/containers:/var/lib/docker/containers:ro
